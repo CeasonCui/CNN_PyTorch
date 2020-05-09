@@ -19,7 +19,7 @@ EPOCH = 10               # train the training data n times, to save time, we jus
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 4
+channel = 2
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
@@ -197,8 +197,8 @@ for epoch in range(EPOCH):
         _, predicted = output.max(1)
         sum_total += t_y.size(0)
         sum_correct += (predicted == t_y).sum().item()
-    print("test  mean loss={}, accuracy={}"
-            .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total)))
+    print("test  mean loss={}, accuracy={}, miss={}"
+            .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
     test_acc_value.append(float(sum_correct/sum_total))
         # if step % 50 == 0:
