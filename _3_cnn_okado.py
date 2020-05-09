@@ -47,7 +47,7 @@ class MyDataset(Dataset):
     def __len__(self): #return count of dataset
         return len(self.images)
 
-path = './dataset'
+path = './dataset/dataset'
 full_dataset = os.listdir(path)
 train_size = int(0.8 * len(full_dataset))
 test_size = len(full_dataset) - train_size
