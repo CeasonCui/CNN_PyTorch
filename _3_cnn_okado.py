@@ -152,8 +152,17 @@ def plot_with_labels(lowDWeights, labels):
 
 plt.ion()
 # training and testing
+
+train_loss_value=[]      #trainingのlossを保持するlist
+train_acc_value=[]       #trainingのaccuracyを保持するlist
+test_loss_value=[]       #testのlossを保持するlist
+test_acc_value=[]        #testのaccuracyを保持するlist 
+
 for epoch in range(EPOCH):
     i = 0
+    sum_loss = 0.0          #lossの合計
+    sum_correct = 0         #正解率の合計
+    sum_total = 0           #dataの数の合計
     for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
         b_x = batch_data['image']
         b_y = batch_data['label']
@@ -164,21 +173,30 @@ for epoch in range(EPOCH):
         loss.backward()                 # backpropagation, compute gradients
         optimizer.step()                # apply gradients
 
-        if step % 50 == 0:
-            for step, batch_tdata in enumerate(test_loader):
-                t_x = batch_tdata['image']
-                t_y = batch_tdata['label']
-                test_output, last_layer = cnn(t_x)
-                pred_y = torch.max(test_output, 1)[1].data.numpy()
-                accuracy = float((pred_y == t_y).astype(int).sum()) / float(t_y.size(0))
-                print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
-                if HAS_SK:
-                    # Visualization of trained flatten layer (T-SNE)
-                    tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000)
-                    plot_only = 500
-                    low_dim_embs = tsne.fit_transform(last_layer.data.numpy()[:plot_only, :])
-                    labels = test_data['label'].numpy()[:plot_only]
-                    plot_with_labels(low_dim_embs, labels)
+        sum_loss += loss.item()                            #lossを足していく
+        _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
+        sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
+        sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
+    
+    print("train mean loss={}, accuracy={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total))) #lossとaccuracy出力
+    train_loss_value.append(sum_loss*BATCH_SIZE/len(train_loader.dataset))  #traindataのlossをグラフ描画のためにlistに保持
+    train_acc_value.append(float(sum_correct/sum_total))   #traindataのaccuracyをグラフ描画のためにlistに保持
+
+        # if step % 50 == 0:
+        #     for step, batch_tdata in enumerate(test_loader):
+        #         t_x = batch_tdata['image']
+        #         t_y = batch_tdata['label']
+        #         test_output, last_layer = cnn(t_x)
+        #         pred_y = torch.max(test_output, 1)[1].data.numpy()
+        #         accuracy = float((pred_y == t_y).astype(int).sum()) / float(t_y.size(0))
+        #         print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
+        #         if HAS_SK:
+        #             # Visualization of trained flatten layer (T-SNE)
+        #             tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000)
+        #             plot_only = 500
+        #             low_dim_embs = tsne.fit_transform(last_layer.data.numpy()[:plot_only, :])
+        #             labels = test_data['label'].numpy()[:plot_only]
+        #             plot_with_labels(low_dim_embs, labels)
 plt.ioff()
 
 # print 10 predictions from test data
