@@ -170,7 +170,7 @@ for epoch in range(EPOCH):
                 t_y = batch_tdata['label']
                 test_output, last_layer = cnn(t_x)
                 pred_y = torch.max(test_output, 1)[1].data.numpy()
-                accuracy = float((pred_y == test_data['label']).astype(int).sum()) / float(test_data['label'].size(0))
+                accuracy = float((pred_y == t_y).astype(int).sum()) / float(t_y.size(0))
                 print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
                 if HAS_SK:
                     # Visualization of trained flatten layer (T-SNE)
