@@ -181,7 +181,26 @@ for epoch in range(EPOCH):
     print("train mean loss={}, accuracy={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total))) #lossとaccuracy出力
     train_loss_value.append(sum_loss*BATCH_SIZE/len(train_loader.dataset))  #traindataのlossをグラフ描画のためにlistに保持
     train_acc_value.append(float(sum_correct/sum_total))   #traindataのaccuracyをグラフ描画のためにlistに保持
+    
+    sum_loss = 0.0
+    sum_correct = 0
+    sum_total = 0
 
+    #test dataを使ってテストをする
+    for step, batch_data in enumerate(test_loader):   # gives batch data, normalize x when iterate train_loader
+        t_x = batch_data['image']
+        t_y = batch_data['label']
+        optimizer.zero_grad()
+        output = cnn(t_x)[0]
+        loss = loss_func(output, t_y)   # cross entropy loss
+        sum_loss += loss.item()
+        _, predicted = output.max(1)
+        sum_total += t_y.size(0)
+        sum_correct += (predicted == t_y).sum().item()
+    print("test  mean loss={}, accuracy={}"
+            .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total)))
+    test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
+    test_acc_value.append(float(sum_correct/sum_total))
         # if step % 50 == 0:
         #     for step, batch_tdata in enumerate(test_loader):
         #         t_x = batch_tdata['image']
@@ -200,7 +219,27 @@ for epoch in range(EPOCH):
 plt.ioff()
 
 # print 10 predictions from test data
-test_output, _ = cnn(test_data['label'][:10])
-pred_y = torch.max(test_output, 1)[1].data.numpy()
-print(pred_y, 'prediction number')
-print(test_data['label'][:10].numpy(), 'real number')
+# test_output, _ = cnn(test_data['label'][:10])
+# pred_y = torch.max(test_output, 1)[1].data.numpy()
+# print(pred_y, 'prediction number')
+# print(test_data['label'][:10].numpy(), 'real number')
+plt.plot(range(EPOCH), train_loss_value)
+plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
+plt.xlim(0, EPOCH)
+plt.ylim(0, 2.5)
+plt.xlabel('EPOCH')
+plt.ylabel('LOSS')
+plt.legend(['train loss', 'test loss'])
+plt.title('loss')
+plt.savefig("loss_image.png")
+plt.clf()
+
+plt.plot(range(EPOCH), train_acc_value)
+plt.plot(range(EPOCH), test_acc_value, c='#00ff00')
+plt.xlim(0, EPOCH)
+plt.ylim(0, 1)
+plt.xlabel('EPOCH')
+plt.ylabel('ACCURACY')
+plt.legend(['train acc', 'test acc'])
+plt.title('accuracy')
+plt.savefig("accuracy_image.png")
