@@ -19,7 +19,7 @@ EPOCH = 10               # train the training data n times, to save time, we jus
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 8
+channel = 4
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
@@ -178,7 +178,7 @@ for epoch in range(EPOCH):
         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
         sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
     
-    print("train mean loss={}, accuracy={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total))) #lossとaccuracy出力
+    print("train mean loss={}, accuracy={}, miss={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total), (sum_total-sum_correct))) #lossとaccuracy出力
     train_loss_value.append(sum_loss*BATCH_SIZE/len(train_loader.dataset))  #traindataのlossをグラフ描画のためにlistに保持
     train_acc_value.append(float(sum_correct/sum_total))   #traindataのaccuracyをグラフ描画のためにlistに保持
     
