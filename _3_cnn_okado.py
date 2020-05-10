@@ -19,7 +19,7 @@ EPOCH = 100               # train the training data n times, to save time, we ju
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 32
+channel = 16
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
@@ -182,6 +182,7 @@ for epoch in range(EPOCH):
         _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
         sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
+        print(predicted != b_y).
         if step==1:
                 print(epoch)
                 print(predicted)
