@@ -33,7 +33,7 @@ class MyDataset(Dataset):
         img_path = os.path.join(self.root_dir, image_index)#获取索引为index的图片的路径名
         img = io.imread(img_path)# 读取该图片
         #label = img_path.split('\\')[-1].split('_')[0]# 根据该图片的路径名获取该图片的label，具体根据路径名进行分割。我这里是"E:\\Python Project\\Pytorch\\dogs-vs-cats\\train\\cat.0.jpg"，所以先用"\\"分割，选取最后一个为['cat.0.jpg']，然后使用"."分割，选取[cat]作为该图片的标签
-        l = img_path.split('\\')[-1].split('_')[0]
+        l = img_path.split('/')[-1].split('_')[0]
         # if l=='ellipse':
         #     label = 0
         # else:
