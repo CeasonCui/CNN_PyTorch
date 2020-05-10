@@ -56,10 +56,12 @@ train_dataset, test_dataset = torch.utils.data.random_split(full_dataset, [train
 if __name__=='__main__':
     train_data = MyDataset(path, train_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
     train_loader = DataLoader(train_data,batch_size=BATCH_SIZE,shuffle=True)#使用DataLoader加载数据
-    # for i_batch,batch_data in enumerate(train_loader):
-    #     print(i_batch)#打印batch编号
-    #     print(batch_data['image'].size())#打印该batch里面图片的大小
-    #     print(batch_data['label'])#打印该batch里面图片的标签
+    for i_batch,batch_data in enumerate(train_loader):
+        if i_batch == 3:
+            break
+        print(i_batch)#打印batch编号
+        print(batch_data['image'].size())#打印该batch里面图片的大小
+        print(batch_data['label'])#打印该batch里面图片的标签
 
 # filelist = os.listdir(path)
 # random.shuffle(filelist)
@@ -184,8 +186,9 @@ for epoch in range(EPOCH):
         _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
         sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
-        if epoch <3:
-            if step==1:
+        if epoch==1:
+            if step<3:
+                print(step)
                 print(predicted)
                 print(b_y)
     
