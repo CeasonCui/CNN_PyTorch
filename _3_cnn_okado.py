@@ -96,7 +96,7 @@ class CNN(nn.Module):
             ),                              # output shape (32, 64, 64)
             nn.ReLU(),                      # activation
             nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
-        # )
+        )
         # self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
         #     nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
         #     nn.ReLU(),                      # activation
