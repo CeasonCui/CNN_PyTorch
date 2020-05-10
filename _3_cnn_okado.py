@@ -177,7 +177,7 @@ for epoch in range(EPOCH):
         _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
         sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
-        if step ==1:
+        if epoch == 2:
             print(predicted)
             print(b_y)
     
