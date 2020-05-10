@@ -19,7 +19,7 @@ EPOCH = 100               # train the training data n times, to save time, we ju
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 16
+channel = 1
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
@@ -48,7 +48,7 @@ class MyDataset(Dataset):
     def __len__(self): #return count of dataset
         return len(self.images)
 
-path = './dataset/dataset'
+path = './dataset_6/dataset'
 full_dataset = os.listdir(path)
 train_size = int(0.8 * len(full_dataset))
 test_size = len(full_dataset) - train_size
@@ -84,7 +84,7 @@ plt.show()
 # test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000]/255.   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
 # test_y = test_data.test_labels[:2000]
 test_data = MyDataset(path, test_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
-test_loader = DataLoader(test_data,batch_size=5376,shuffle=True)   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
+test_loader = DataLoader(test_data,batch_size=BATCH_SIZE,shuffle=True)   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
 
 class CNN(nn.Module):
     def __init__(self):
@@ -115,14 +115,14 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*2 * 16 * 16, 2)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        #x = self.conv2(x)
+        x = self.conv2(x)
         #x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
