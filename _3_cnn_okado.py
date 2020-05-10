@@ -64,14 +64,14 @@ if __name__=='__main__':
         print(batch_data['image'].size())#打印该batch里面图片的大小
         print(batch_data['label'])#打印该batch里面图片的标签
 
-filelist = os.listdir(path)
-random.shuffle(filelist)
-train = filelist[: int(0.8 * len(filelist))]
-torch.utils.data.random_split
+# filelist = os.listdir(path)
+# random.shuffle(filelist)
+# train = filelist[: int(0.8 * len(filelist))]
+# torch.utils.data.random_split
 
-plot one example
-print(data.size())                 # (60000, 28, 28)
-print(train_data.train_labels.size())               # (60000)
+# plot one example
+# print(data.size())                 # (60000, 28, 28)
+# print(train_data.train_labels.size())               # (60000)
 plt.imshow(train_data[0]['image'], cmap='gray')
 plt.title('%i' % train_data[0]['label'])
 plt.show()
