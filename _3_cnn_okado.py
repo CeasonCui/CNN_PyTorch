@@ -64,197 +64,197 @@ if __name__=='__main__':
         print(batch_data['image'].size())#打印该batch里面图片的大小
         print(batch_data['label'])#打印该batch里面图片的标签
 
-# filelist = os.listdir(path)
-# random.shuffle(filelist)
-# train = filelist[: int(0.8 * len(filelist))]
-# torch.utils.data.random_split
+filelist = os.listdir(path)
+random.shuffle(filelist)
+train = filelist[: int(0.8 * len(filelist))]
+torch.utils.data.random_split
 
-# plot one example
-# print(data.size())                 # (60000, 28, 28)
-# print(train_data.train_labels.size())               # (60000)
-# plt.imshow(train_data[0]['image'], cmap='gray')
-# plt.title('%i' % train_data[0]['label'])
-# plt.show()
+plot one example
+print(data.size())                 # (60000, 28, 28)
+print(train_data.train_labels.size())               # (60000)
+plt.imshow(train_data[0]['image'], cmap='gray')
+plt.title('%i' % train_data[0]['label'])
+plt.show()
 
-# # Data Loader for easy mini-batch return in training, the image batch shape will be (50, 1, 28, 28)
-# #train_loader = Data.DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True)
+# Data Loader for easy mini-batch return in training, the image batch shape will be (50, 1, 28, 28)
+#train_loader = Data.DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True)
 
-# # pick 2000 samples to speed up testing
-# # test_data = torchvision.datasets.MNIST(root='./mnist/', train=False)
-# # test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000]/255.   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
-# # test_y = test_data.test_labels[:2000]
-# test_data = MyDataset(path, test_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
-# test_loader = DataLoader(test_data,batch_size=5376,shuffle=True)   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
+# pick 2000 samples to speed up testing
+# test_data = torchvision.datasets.MNIST(root='./mnist/', train=False)
+# test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000]/255.   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
+# test_y = test_data.test_labels[:2000]
+test_data = MyDataset(path, test_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
+test_loader = DataLoader(test_data,batch_size=5376,shuffle=True)   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
 
-# class CNN(nn.Module):
-#     def __init__(self):
-#         super(CNN, self).__init__()
-#         self.conv1 = nn.Sequential(         # input shape (1, 64, 64)
-#             nn.Conv2d(
-#                 in_channels=1,              # input height
-#                 out_channels=channel,            # n_filters
-#                 kernel_size=3,              # filter size
-#                 stride=1,                   # filter movement/step
-#                 padding=1,                  # if want same width and length of this image after Conv2d, padding=(kernel_size-1)/2 if stride=1
-#             ),                              # output shape (32, 64, 64)
-#             nn.ReLU(),                      # activation
-#             nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
-#         )
-#         # self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
-#         #     nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
-#         #     nn.ReLU(),                      # activation
-#         #     nn.MaxPool2d(2),                # output shape (64, 16, 16)
-#         # )
-#         # self.conv3 = nn.Sequential(         # input shape (64, 16, 16)
-#         #     nn.Conv2d(channel*2, channel*4, 3, 1, 1),     # output shape (128, 16, 16)
-#         #     nn.ReLU(),                      # activation
-#         #     nn.MaxPool2d(2),                # output shape (128, 8, 8)
-#         # )
-#         # self.conv4 = nn.Sequential(         # input shape (128, 8, 8)
-#         #     nn.Conv2d(channel*4, channel*8, 3, 1, 1),     # output shape (256, 8, 8)
-#         #     nn.ReLU(),                      # activation
-#         #     nn.MaxPool2d(2),                # output shape (256, 4, 4)
-#         # )
-#         # self.conv5 = nn.Sequential(         # input shape (16, 14, 14)
-#         #     nn.Conv2d(channel*8, channel*16, 3, 1, 1),     # output shape (32, 14, 14)
-#         #     nn.ReLU(),                      # activation
-#         #     nn.MaxPool2d(2),                # output shape (32, 7, 7)
-#         # )
-#         self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
+class CNN(nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
+        self.conv1 = nn.Sequential(         # input shape (1, 64, 64)
+            nn.Conv2d(
+                in_channels=1,              # input height
+                out_channels=channel,            # n_filters
+                kernel_size=3,              # filter size
+                stride=1,                   # filter movement/step
+                padding=1,                  # if want same width and length of this image after Conv2d, padding=(kernel_size-1)/2 if stride=1
+            ),                              # output shape (32, 64, 64)
+            nn.ReLU(),                      # activation
+            nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
+        )
+        # self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
+        #     nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (64, 16, 16)
+        # )
+        # self.conv3 = nn.Sequential(         # input shape (64, 16, 16)
+        #     nn.Conv2d(channel*2, channel*4, 3, 1, 1),     # output shape (128, 16, 16)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (128, 8, 8)
+        # )
+        # self.conv4 = nn.Sequential(         # input shape (128, 8, 8)
+        #     nn.Conv2d(channel*4, channel*8, 3, 1, 1),     # output shape (256, 8, 8)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (256, 4, 4)
+        # )
+        # self.conv5 = nn.Sequential(         # input shape (16, 14, 14)
+        #     nn.Conv2d(channel*8, channel*16, 3, 1, 1),     # output shape (32, 14, 14)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (32, 7, 7)
+        # )
+        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
     
-#     def forward(self, x):
-#         x = x.float()
-#         x = x.view(-1, 1, 64, 64)
-#         #x = x.reshape(-1, 1, 64, 64)
-#         x = self.conv1(x)
-#         #x = self.conv2(x)
-#         #x = self.conv3(x)
-#         #x = self.conv4(x)
-#         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
-#         output = self.fc1(x)
-#         #output = self.softmax(x)
-#         return output, x    # return x for visualization
+    def forward(self, x):
+        x = x.float()
+        x = x.view(-1, 1, 64, 64)
+        #x = x.reshape(-1, 1, 64, 64)
+        x = self.conv1(x)
+        #x = self.conv2(x)
+        #x = self.conv3(x)
+        #x = self.conv4(x)
+        x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
+        output = self.fc1(x)
+        #output = self.softmax(x)
+        return output, x    # return x for visualization
 
 
-# cnn = CNN()
-# print(cnn)  # net architecture
+cnn = CNN()
+print(cnn)  # net architecture
 
-# optimizer = torch.optim.Adam(cnn.parameters(), lr=LR)   # optimize all cnn parameters
-# loss_func = nn.CrossEntropyLoss()                       # the target label is not one-hotted
+optimizer = torch.optim.Adam(cnn.parameters(), lr=LR)   # optimize all cnn parameters
+loss_func = nn.CrossEntropyLoss()                       # the target label is not one-hotted
 
-# # following function (plot_with_labels) is for visualization, can be ignored if not interested
-# from matplotlib import cm
-# try: from sklearn.manifold import TSNE; HAS_SK = True
-# except: HAS_SK = False; print('Please install sklearn for layer visualization')
-# def plot_with_labels(lowDWeights, labels):
-#     plt.cla()
-#     X, Y = lowDWeights[:, 0], lowDWeights[:, 1]
-#     for x, y, s in zip(X, Y, labels):
-#         c = cm.rainbow(int(255 * s / 9)); plt.text(x, y, s, backgroundcolor=c, fontsize=9)
-#     plt.xlim(X.min(), X.max()); plt.ylim(Y.min(), Y.max()); plt.title('Visualize last layer'); plt.show(); plt.pause(0.01)
+# following function (plot_with_labels) is for visualization, can be ignored if not interested
+from matplotlib import cm
+try: from sklearn.manifold import TSNE; HAS_SK = True
+except: HAS_SK = False; print('Please install sklearn for layer visualization')
+def plot_with_labels(lowDWeights, labels):
+    plt.cla()
+    X, Y = lowDWeights[:, 0], lowDWeights[:, 1]
+    for x, y, s in zip(X, Y, labels):
+        c = cm.rainbow(int(255 * s / 9)); plt.text(x, y, s, backgroundcolor=c, fontsize=9)
+    plt.xlim(X.min(), X.max()); plt.ylim(Y.min(), Y.max()); plt.title('Visualize last layer'); plt.show(); plt.pause(0.01)
 
-# plt.ion()
-# # training and testing
+plt.ion()
+# training and testing
 
-# train_loss_value=[]      #trainingのlossを保持するlist
-# train_acc_value=[]       #trainingのaccuracyを保持するlist
-# test_loss_value=[]       #testのlossを保持するlist
-# test_acc_value=[]        #testのaccuracyを保持するlist 
+train_loss_value=[]      #trainingのlossを保持するlist
+train_acc_value=[]       #trainingのaccuracyを保持するlist
+test_loss_value=[]       #testのlossを保持するlist
+test_acc_value=[]        #testのaccuracyを保持するlist 
 
-# for epoch in range(EPOCH):
-#     i = 0
-#     sum_loss = 0.0          #lossの合計
-#     sum_correct = 0         #正解率の合計
-#     sum_total = 0           #dataの数の合計
-#     for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
-#         b_x = batch_data['image']
-#         b_y = batch_data['label']
-#         #output = cnn(b_x)[0]               # cnn output
-#         output = cnn(b_x)[0]
-#         loss = loss_func(output, b_y)   # cross entropy loss
-#         optimizer.zero_grad()           # clear gradients for this training step
-#         loss.backward()                 # backpropagation, compute gradients
-#         optimizer.step()                # apply gradients
+for epoch in range(EPOCH):
+    i = 0
+    sum_loss = 0.0          #lossの合計
+    sum_correct = 0         #正解率の合計
+    sum_total = 0           #dataの数の合計
+    for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
+        b_x = batch_data['image']
+        b_y = batch_data['label']
+        #output = cnn(b_x)[0]               # cnn output
+        output = cnn(b_x)[0]
+        loss = loss_func(output, b_y)   # cross entropy loss
+        optimizer.zero_grad()           # clear gradients for this training step
+        loss.backward()                 # backpropagation, compute gradients
+        optimizer.step()                # apply gradients
 
-#     for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
-#         b_x = batch_data['image']
-#         b_y = batch_data['label']
-#         #output = cnn(b_x)[0]               # cnn output
-#         output = cnn(b_x)[0]
-#         loss = loss_func(output, b_y)   # cross entropy loss
-#         optimizer.zero_grad()           # clear gradients for this training step
-#         sum_loss += loss.item()                            #lossを足していく
-#         _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
-#         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
-#         sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
-#         if epoch==1:
-#             if step<3:
-#                 print(step)
-#                 print(predicted)
-#                 print(b_y)
+    for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
+        b_x = batch_data['image']
+        b_y = batch_data['label']
+        #output = cnn(b_x)[0]               # cnn output
+        output = cnn(b_x)[0]
+        loss = loss_func(output, b_y)   # cross entropy loss
+        optimizer.zero_grad()           # clear gradients for this training step
+        sum_loss += loss.item()                            #lossを足していく
+        _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
+        sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
+        sum_correct += (predicted == b_y).sum().item()  #予想位置と実際の正解を比べ,正解している数だけ足す
+        if epoch==1:
+            if step<3:
+                print(step)
+                print(predicted)
+                print(b_y)
     
-#     print("train mean loss={}, accuracy={}, miss={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total), (sum_total-sum_correct))) #lossとaccuracy出力
-#     train_loss_value.append(sum_loss*BATCH_SIZE/len(train_loader.dataset))  #traindataのlossをグラフ描画のためにlistに保持
-#     train_acc_value.append(float(sum_correct/sum_total))   #traindataのaccuracyをグラフ描画のためにlistに保持
+    print("train mean loss={}, accuracy={}, miss={}".format((sum_loss*BATCH_SIZE/len(train_loader.dataset)), float(sum_correct/sum_total), (sum_total-sum_correct))) #lossとaccuracy出力
+    train_loss_value.append(sum_loss*BATCH_SIZE/len(train_loader.dataset))  #traindataのlossをグラフ描画のためにlistに保持
+    train_acc_value.append(float(sum_correct/sum_total))   #traindataのaccuracyをグラフ描画のためにlistに保持
     
-#     sum_loss = 0.0
-#     sum_correct = 0
-#     sum_total = 0
+    sum_loss = 0.0
+    sum_correct = 0
+    sum_total = 0
 
-#     #test dataを使ってテストをする
-#     for step, batch_data in enumerate(test_loader):   # gives batch data, normalize x when iterate train_loader
-#         t_x = batch_data['image']
-#         t_y = batch_data['label']
-#         optimizer.zero_grad()
-#         output = cnn(t_x)[0]
-#         loss = loss_func(output, t_y)   # cross entropy loss
-#         sum_loss += loss.item()
-#         _, predicted = output.max(1)
-#         sum_total += t_y.size(0)
-#         sum_correct += (predicted == t_y).sum().item()
-#     print("test  mean loss={}, accuracy={}, miss={}"
-#             .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
-#     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
-#     test_acc_value.append(float(sum_correct/sum_total))
-#         # if step % 50 == 0:
-#         #     for step, batch_tdata in enumerate(test_loader):
-#         #         t_x = batch_tdata['image']
-#         #         t_y = batch_tdata['label']
-#         #         test_output, last_layer = cnn(t_x)
-#         #         pred_y = torch.max(test_output, 1)[1].data.numpy()
-#         #         accuracy = float((pred_y == t_y).astype(int).sum()) / float(t_y.size(0))
-#         #         print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
-#         #         if HAS_SK:
-#         #             # Visualization of trained flatten layer (T-SNE)
-#         #             tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000)
-#         #             plot_only = 500
-#         #             low_dim_embs = tsne.fit_transform(last_layer.data.numpy()[:plot_only, :])
-#         #             labels = test_data['label'].numpy()[:plot_only]
-#         #             plot_with_labels(low_dim_embs, labels)
-# plt.ioff()
+    #test dataを使ってテストをする
+    for step, batch_data in enumerate(test_loader):   # gives batch data, normalize x when iterate train_loader
+        t_x = batch_data['image']
+        t_y = batch_data['label']
+        optimizer.zero_grad()
+        output = cnn(t_x)[0]
+        loss = loss_func(output, t_y)   # cross entropy loss
+        sum_loss += loss.item()
+        _, predicted = output.max(1)
+        sum_total += t_y.size(0)
+        sum_correct += (predicted == t_y).sum().item()
+    print("test  mean loss={}, accuracy={}, miss={}"
+            .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
+    test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
+    test_acc_value.append(float(sum_correct/sum_total))
+        # if step % 50 == 0:
+        #     for step, batch_tdata in enumerate(test_loader):
+        #         t_x = batch_tdata['image']
+        #         t_y = batch_tdata['label']
+        #         test_output, last_layer = cnn(t_x)
+        #         pred_y = torch.max(test_output, 1)[1].data.numpy()
+        #         accuracy = float((pred_y == t_y).astype(int).sum()) / float(t_y.size(0))
+        #         print('Epoch: ', epoch, '| train loss: %.4f' % loss.data.numpy(), '| test accuracy: %.2f' % accuracy)
+        #         if HAS_SK:
+        #             # Visualization of trained flatten layer (T-SNE)
+        #             tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000)
+        #             plot_only = 500
+        #             low_dim_embs = tsne.fit_transform(last_layer.data.numpy()[:plot_only, :])
+        #             labels = test_data['label'].numpy()[:plot_only]
+        #             plot_with_labels(low_dim_embs, labels)
+plt.ioff()
 
-# # print 10 predictions from test data
-# # test_output, _ = cnn(test_data['label'][:10])
-# # pred_y = torch.max(test_output, 1)[1].data.numpy()
-# # print(pred_y, 'prediction number')
-# # print(test_data['label'][:10].numpy(), 'real number')
-# # plt.plot(range(EPOCH), train_loss_value)
-# # plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
-# # plt.xlim(0, EPOCH)
-# # plt.ylim(0, 2.5)
-# # plt.xlabel('EPOCH')
-# # plt.ylabel('LOSS')
-# # plt.legend(['train loss', 'test loss'])
-# # plt.title('loss')
-# # plt.savefig("loss_image.png")
-# # plt.clf()
+# print 10 predictions from test data
+# test_output, _ = cnn(test_data['label'][:10])
+# pred_y = torch.max(test_output, 1)[1].data.numpy()
+# print(pred_y, 'prediction number')
+# print(test_data['label'][:10].numpy(), 'real number')
+# plt.plot(range(EPOCH), train_loss_value)
+# plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
+# plt.xlim(0, EPOCH)
+# plt.ylim(0, 2.5)
+# plt.xlabel('EPOCH')
+# plt.ylabel('LOSS')
+# plt.legend(['train loss', 'test loss'])
+# plt.title('loss')
+# plt.savefig("loss_image.png")
+# plt.clf()
 
-# # plt.plot(range(EPOCH), train_acc_value)
-# # plt.plot(range(EPOCH), test_acc_value, c='#00ff00')
-# # plt.xlim(0, EPOCH)
-# # plt.ylim(0, 1)
-# # plt.xlabel('EPOCH')
-# # plt.ylabel('ACCURACY')
-# # plt.legend(['train acc', 'test acc'])
-# # plt.title('accuracy')
-# # plt.savefig("accuracy_image.png")
+# plt.plot(range(EPOCH), train_acc_value)
+# plt.plot(range(EPOCH), test_acc_value, c='#00ff00')
+# plt.xlim(0, EPOCH)
+# plt.ylim(0, 1)
+# plt.xlabel('EPOCH')
+# plt.ylabel('ACCURACY')
+# plt.legend(['train acc', 'test acc'])
+# plt.title('accuracy')
+# plt.savefig("accuracy_image.png")
