@@ -96,22 +96,22 @@ class CNN(nn.Module):
             ),                              # output shape (32, 64, 64)
             nn.ReLU(),                      # activation
             nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
-        )
-        self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
-            nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
-            nn.ReLU(),                      # activation
-            nn.MaxPool2d(2),                # output shape (64, 16, 16)
-        )
-        self.conv3 = nn.Sequential(         # input shape (64, 16, 16)
-            nn.Conv2d(channel*2, channel*4, 3, 1, 1),     # output shape (128, 16, 16)
-            nn.ReLU(),                      # activation
-            nn.MaxPool2d(2),                # output shape (128, 8, 8)
-        )
-        self.conv4 = nn.Sequential(         # input shape (128, 8, 8)
-            nn.Conv2d(channel*4, channel*8, 3, 1, 1),     # output shape (256, 8, 8)
-            nn.ReLU(),                      # activation
-            nn.MaxPool2d(2),                # output shape (256, 4, 4)
-        )
+        # )
+        # self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
+        #     nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (64, 16, 16)
+        # )
+        # self.conv3 = nn.Sequential(         # input shape (64, 16, 16)
+        #     nn.Conv2d(channel*2, channel*4, 3, 1, 1),     # output shape (128, 16, 16)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (128, 8, 8)
+        # )
+        # self.conv4 = nn.Sequential(         # input shape (128, 8, 8)
+        #     nn.Conv2d(channel*4, channel*8, 3, 1, 1),     # output shape (256, 8, 8)
+        #     nn.ReLU(),                      # activation
+        #     nn.MaxPool2d(2),                # output shape (256, 4, 4)
+        # )
         # self.conv5 = nn.Sequential(         # input shape (16, 14, 14)
         #     nn.Conv2d(channel*8, channel*16, 3, 1, 1),     # output shape (32, 14, 14)
         #     nn.ReLU(),                      # activation
