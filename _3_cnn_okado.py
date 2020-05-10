@@ -173,6 +173,13 @@ for epoch in range(EPOCH):
         loss.backward()                 # backpropagation, compute gradients
         optimizer.step()                # apply gradients
 
+    for step, batch_data in enumerate(train_loader):   # gives batch data, normalize x when iterate train_loader
+        b_x = batch_data['image']
+        b_y = batch_data['label']
+        #output = cnn(b_x)[0]               # cnn output
+        output = cnn(b_x)[0]
+        loss = loss_func(output, b_y)   # cross entropy loss
+        optimizer.zero_grad()           # clear gradients for this training step
         sum_loss += loss.item()                            #lossを足していく
         _, predicted = output.max(1)                      #出力の最大値の添字(予想位置)を取得
         sum_total += b_y.size(0)                        #labelの数を足していくことでデータの総和を取る
