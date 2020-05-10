@@ -15,7 +15,7 @@ from torchvision.utils import make_grid
 # torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 10               # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 100               # train the training data n times, to save time, we just train 1 epoch
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
@@ -34,7 +34,7 @@ class MyDataset(Dataset):
         img = io.imread(img_path)# 读取该图片
         #label = img_path.split('\\')[-1].split('_')[0]# 根据该图片的路径名获取该图片的label，具体根据路径名进行分割。我这里是"E:\\Python Project\\Pytorch\\dogs-vs-cats\\train\\cat.0.jpg"，所以先用"\\"分割，选取最后一个为['cat.0.jpg']，然后使用"."分割，选取[cat]作为该图片的标签
         l = img_path.split('\\')[-1].split('_')[0]
-        if l=='triangle':
+        if l=='ellipse':
             label = 0
         else:
             label = 1
