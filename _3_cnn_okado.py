@@ -19,7 +19,7 @@ EPOCH = 100               # train the training data n times, to save time, we ju
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 1
+channel = 32
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
@@ -115,14 +115,14 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*2 * 16 * 16, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        x = self.conv2(x)
+        #x = self.conv2(x)
         #x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
