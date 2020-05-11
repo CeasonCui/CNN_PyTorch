@@ -19,7 +19,7 @@ EPOCH = 100               # train the training data n times, to save time, we ju
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 1
+channel = 2
 
 
 
@@ -117,14 +117,14 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*2 * 16 * 16, 2)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        #x = self.conv2(x)
+        x = self.conv2(x)
         #x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
@@ -235,6 +235,8 @@ plt.ioff()
 # pred_y = torch.max(test_output, 1)[1].data.numpy()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
+
+torch.save(cnn,'cnn8_3.pkl')
 
 plt.plot(range(EPOCH), train_loss_value)
 plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
