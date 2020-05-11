@@ -33,7 +33,7 @@ class CNN(nn.Module):
                 stride=1,                   # filter movement/step
                 padding=1,                  # if want same width and length of this image after Conv2d, padding=(kernel_size-1)/2 if stride=1
             ),                              # output shape (32, 64, 64)
-            nn.ReLU(),                      # activation
+            #nn.ReLU(),                      # activation
             #nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
         )
         self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
@@ -53,11 +53,13 @@ class CNN(nn.Module):
         )
         self.fc1 = nn.Linear(channel*4 * 8 * 8, 2)   # fully connected layer, output 2 classes
         self.pool = nn.MaxPool2d(2, stride=2)
+        self.relu = nn.ReLU()
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
+        x = self.relu(x)
         x1 = x.reshape(-1, 1, 64, 64)
         x = self.pool(x)
         #x1 = x1.cpu().numpy()
@@ -70,7 +72,7 @@ class CNN(nn.Module):
         return  x1   # return x for visualization
 
 cnn2 = CNN()
-cnn2.load_state_dict(torch.load('cnn8_3.pth'))
+cnn2.load_state_dict(torch.load('cnn_e_8_1.pth'))
 path = './dataset_6/dataset/ellipse_d2_p1378.jpg'
 img = io.imread(path)
 train_loader = DataLoader(img,batch_size=64,shuffle=False)#使用DataLoader加载数据
@@ -88,3 +90,5 @@ for i_batch,batch_data in enumerate(train_loader):
         #cv2.imwrite('./feature.jpg',feature)
 # feature = feature.numpy()
 # cv2.imwrite('./feature.jpg',feature)
+print(cnn2.state_dict()['conv1.0.weight'])
+#print(cnn2.state_dict().keys())
