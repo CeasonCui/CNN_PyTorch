@@ -15,7 +15,7 @@ from torchvision.utils import make_grid
 # torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 10               # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 1               # train the training data n times, to save time, we just train 1 epoch
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
@@ -236,7 +236,9 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-torch.save(cnn,'cnn8_3.pkl')
+torch.save(cnn,'cnn.pkl')
+net2=torch.load('cnn8_3.pkl')
+print (net2)
 
 plt.plot(range(EPOCH), train_loss_value)
 plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
