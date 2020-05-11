@@ -16,10 +16,10 @@ from torchvision.utils import make_grid
 
 # Hyper Parameters
 EPOCH = 100               # train the training data n times, to save time, we just train 1 epoch
-BATCH_SIZE = 32
+BATCH_SIZE = 10
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 8
+channel = 16
 
 
 
