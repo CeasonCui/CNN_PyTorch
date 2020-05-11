@@ -50,14 +50,14 @@ class CNN(nn.Module):
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
         self.fc1 = nn.Linear(channel*4 * 8 * 8, 2)   # fully connected layer, output 2 classes
-    
+        self.pool = nn.MaxPool2d(2, stride=2)
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
         x1 = x.reshape(-1, 1, 64, 64)
-        nn.MaxPool2d(kernel_size=2)
+        x = self.pool(x)
         #x1 = x1.cpu().numpy()
         x = self.conv2(x)
         x = self.conv3(x)
