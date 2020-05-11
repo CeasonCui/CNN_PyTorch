@@ -12,6 +12,8 @@ import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import transforms
 from torchvision.utils import make_grid
+from PIL import Image
+import matplotlib.pyplot as plt
 
 
 EPOCH = 1               # train the training data n times, to save time, we just train 1 epoch
@@ -67,7 +69,7 @@ class CNN(nn.Module):
         #output = self.softmax(x)
         return  x1   # return x for visualization
 
-
+unloader = transforms.ToPILImage()
 cnn2 = CNN()
 cnn2.load_state_dict(torch.load('cnn8_3.pth'))
 path = './dataset_6/dataset/square_d2_p1378.jpg'
@@ -79,7 +81,11 @@ for i_batch,batch_data in enumerate(train_loader):
     print(feature.size())
     print(feature[1].size())
     for i in range(8):
-        feature = feature[i].detach().numpy()
-        cv2.imwrite('./feature.jpg',feature)
+        image = feature[i].cpu().clone()
+        image = image.squeeze(0)
+        image = unloader(image)
+        image.save('feature_'+i+'.jpg', quality=95)
+        #feature = feature[i].detach().numpy()
+        #cv2.imwrite('./feature.jpg',feature)
 # feature = feature.numpy()
 # cv2.imwrite('./feature.jpg',feature)
