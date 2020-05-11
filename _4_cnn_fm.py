@@ -73,6 +73,7 @@ cnn2.load_state_dict(torch.load('cnn8_3.pth'))
 path = './dataset_6/dataset/square_d2_p1378.jpg'
 img = io.imread(path)
 train_loader = DataLoader(img,batch_size=1,shuffle=False)#使用DataLoader加载数据
-feature = cnn2(train_loader)
+for i_batch,batch_data in enumerate(train_loader):
+    feature = cnn2(batch_data)
 feature = feature.cpu().numpy()
 cv2.imwrite('./feature.jpg',feature)
