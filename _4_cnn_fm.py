@@ -32,7 +32,7 @@ class CNN(nn.Module):
                 padding=1,                  # if want same width and length of this image after Conv2d, padding=(kernel_size-1)/2 if stride=1
             ),                              # output shape (32, 64, 64)
             nn.ReLU(),                      # activation
-            nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
+            #nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
         )
         self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
             nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
@@ -57,6 +57,7 @@ class CNN(nn.Module):
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
         x1 = x.reshape(-1, 1, 64, 64)
+        nn.MaxPool2d(kernel_size=2)
         #x1 = x1.cpu().numpy()
         x = self.conv2(x)
         x = self.conv3(x)
