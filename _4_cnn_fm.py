@@ -82,8 +82,8 @@ for i_batch,batch_data in enumerate(train_loader):
     for i in range(8):
         image = feature[i].cpu().clone()
         image = image.squeeze(0)
-        image = transforms.ToPILImage(image)
-        image.save('feature_'+str(i+1)+'.jpg', quality=95)
+        image1 = transforms.ToPILImage(image)
+        image1.save('feature_'+str(i+1)+'.jpg', quality=95)
         #feature = feature[i].detach().numpy()
         #cv2.imwrite('./feature.jpg',feature)
 # feature = feature.numpy()
