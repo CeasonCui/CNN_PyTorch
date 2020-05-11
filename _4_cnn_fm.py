@@ -69,7 +69,6 @@ class CNN(nn.Module):
         #output = self.softmax(x)
         return  x1   # return x for visualization
 
-unloader = transforms.ToPILImage()
 cnn2 = CNN()
 cnn2.load_state_dict(torch.load('cnn8_3.pth'))
 path = './dataset_6/dataset/square_d2_p1378.jpg'
@@ -83,8 +82,8 @@ for i_batch,batch_data in enumerate(train_loader):
     for i in range(8):
         image = feature[i].cpu().clone()
         image = image.squeeze(0)
-        image = unloader(image)
-        image.save('feature_'+i+'.jpg', quality=95)
+        image = transforms.ToPILImage(image)
+        image.save('feature_'+str(i+1)+'.jpg', quality=95)
         #feature = feature[i].detach().numpy()
         #cv2.imwrite('./feature.jpg',feature)
 # feature = feature.numpy()
