@@ -1,7 +1,6 @@
 import os
 
 # third-party library
-import cv2
 import torch
 import torch.nn as nn
 import torchvision
@@ -119,15 +118,16 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*4 * 8 * 8, 2)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        #x = self.conv2(x)
-        #x = self.conv3(x)
+        #x1 = x.reshape(-1, 1, 64, 64)
+        x = self.conv2(x)
+        x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
@@ -238,7 +238,8 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-# torch.save(cnn,'cnn.pkl')
+torch.save(cnn.state_dict(),'cnn8_3.pth')
+
 # net2=torch.load('cnn8_3.pkl')
 # print (net2)
 
@@ -264,59 +265,3 @@ plt.title('accuracy')
 plt.savefig("accuracy_image.png")
 
 
-class FeatureVisualization():
-    def __init__(self,img_path,selected_layer,model):
-        self.img_path=img_path
-        self.selected_layer=selected_layer
-        self.pretrained_model = model.features
-
-    def process_image(self):
-        img=cv2.imread(self.img_path)
-        #img=preprocess_image(img)
-        return img
-
-    def get_feature(self):
-        # input = Variable(torch.randn(1, 3, 224, 224))
-        input=self.process_image()
-        print(input.shape)
-        x=input
-        for index,layer in enumerate(self.pretrained_model):
-            x=layer(x)
-            if (index == self.selected_layer):
-                return x
-
-    def get_single_feature(self):
-        features=self.get_feature()
-        print(features.shape)
-
-        feature=features[:,0,:,:]
-        print(feature.shape)
-
-        feature=feature.view(feature.shape[1],feature.shape[2])
-        print(feature.shape)
-
-        return feature
-
-    def save_feature_to_img(self):
-        #to numpy
-        feature=self.get_single_feature()
-        feature=feature.data.numpy()
-
-        #use sigmod to [0,1]
-        feature= 1.0/(1+np.exp(-1*feature))
-
-        # to [0,255]
-        feature=np.round(feature*255)
-        print(feature[0])
-
-        cv2.imwrite('./feature_img.jpg',feature)
-
-
-
-
-if __name__=='__main__':
-    # get class
-    myClass=FeatureVisualization('./dataset_6/dataset/square_d2_p1378.jpg',5,cnn)
-    print (myClass.pretrained_model)
-
-    myClass.save_feature_to_img()
