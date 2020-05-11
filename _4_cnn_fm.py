@@ -53,10 +53,10 @@ class CNN(nn.Module):
     
     def forward(self, x):
         x = x.float()
-        x = x.view(1, 64, 64)
+        x = x.view(64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        x1 = x.reshape(1, 64, 64)
+        x1 = x.reshape(64, 64)
         #x1 = x1.cpu().numpy()
         x = self.conv2(x)
         x = self.conv3(x)
