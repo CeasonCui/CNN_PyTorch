@@ -56,18 +56,21 @@ class CNN(nn.Module):
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        #x1 = x.reshape(-1, 1, 64, 64)
+        x1 = x.reshape(-1, 1, 64, 64)
+        #x1 = x1.cpu().numpy()
         x = self.conv2(x)
         x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
         #output = self.softmax(x)
-        return output, x    # return x for visualization
+        return  x1   # return x for visualization
 
 
 cnn2 = CNN()
 
 cnn2.load_state_dict(torch.load('cnn8_3.pth'))
-
-print (cnn2)
+path = './dataset_6/dataset/square_d2_p1378.jpg'
+feature = cnn2(path)
+feature = feature.cpu().numpy()
+cv2.imwrite('./feature.jpg',feature)
