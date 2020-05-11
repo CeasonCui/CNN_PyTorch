@@ -19,7 +19,7 @@ EPOCH = 100               # train the training data n times, to save time, we ju
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 4
+channel = 8
 
 
 
@@ -64,6 +64,7 @@ if __name__=='__main__':
             break
         print(i_batch)#打印batch编号
         print(batch_data['image'].size())#打印该batch里面图片的大小
+        #print(batch_data['image'])
         print(batch_data['label'])#打印该batch里面图片的标签
 
 # filelist = os.listdir(path)
