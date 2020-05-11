@@ -77,5 +77,8 @@ for i_batch,batch_data in enumerate(train_loader):
     print(batch_data.size())
     feature = cnn2(batch_data)
     print(feature.size())
+    for i in range(8):
+        feature = feature[i].numpy()
+        cv2.imwrite('./feature.jpg',feature)
 # feature = feature.numpy()
 # cv2.imwrite('./feature.jpg',feature)
