@@ -15,7 +15,7 @@ from torchvision.utils import make_grid
 # torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 100               # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 10               # train the training data n times, to save time, we just train 1 epoch
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
@@ -38,8 +38,14 @@ class MyDataset(Dataset):
         l = img_path.split('/')[-1].split('_')[0]
         if l=='ellipse':
             label = 0
-        else:
+        if l=='square':
             label = 1
+        if l=='triangle':
+            label = 2
+        if l=='pentagon':
+            label = 3
+        if l=='hexagon':
+            label = 4            
         #label =l
         sample = {'image':img,'label':label}#根据图片和标签创建字典
         
@@ -118,7 +124,7 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*1 * 32 * 32, 5)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
