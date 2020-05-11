@@ -69,7 +69,7 @@ class CNN(nn.Module):
 
 cnn2 = CNN()
 cnn2.load_state_dict(torch.load('cnn8_3.pth'))
-path = './dataset/dataset/square_d2_p1378.jpg'
+path = './dataset_6/dataset/square_d2_p1378.jpg'
 img = io.imread(path)
 train_loader = DataLoader(img,batch_size=64,shuffle=False)#使用DataLoader加载数据
 for i_batch,batch_data in enumerate(train_loader):
