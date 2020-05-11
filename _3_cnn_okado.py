@@ -19,7 +19,7 @@ EPOCH = 1               # train the training data n times, to save time, we just
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 8
+channel = 1
 
 
 
@@ -36,7 +36,7 @@ class MyDataset(Dataset):
         img = io.imread(img_path)# 读取该图片
         #label = img_path.split('\\')[-1].split('_')[0]# 根据该图片的路径名获取该图片的label，具体根据路径名进行分割。我这里是"E:\\Python Project\\Pytorch\\dogs-vs-cats\\train\\cat.0.jpg"，所以先用"\\"分割，选取最后一个为['cat.0.jpg']，然后使用"."分割，选取[cat]作为该图片的标签
         l = img_path.split('/')[-1].split('_')[0]
-        if l=='ellipse':
+        if l=='square':
             label = 0
         else:
             label = 1
@@ -117,15 +117,15 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*4 * 8 * 8, 2)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
     
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
+        #x = self.conv2(x)
+        #x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
@@ -236,9 +236,9 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-torch.save(cnn,'cnn.pkl')
-net2=torch.load('cnn8_3.pkl')
-print (net2)
+# torch.save(cnn,'cnn.pkl')
+# net2=torch.load('cnn8_3.pkl')
+# print (net2)
 
 plt.plot(range(EPOCH), train_loss_value)
 plt.plot(range(EPOCH), test_loss_value, c='#00ff00')
