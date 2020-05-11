@@ -75,5 +75,5 @@ train_loader = DataLoader(img,batch_size=64,shuffle=False)#使用DataLoader加�
 for i_batch,batch_data in enumerate(train_loader):
     print(batch_data.size())
     feature = cnn2(batch_data)
-feature = feature.cpu().numpy()
+feature = feature.numpy()
 cv2.imwrite('./feature.jpg',feature)
