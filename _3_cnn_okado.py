@@ -19,7 +19,7 @@ EPOCH = 3               # train the training data n times, to save time, we just
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 8
+channel = 4
 
 
 
