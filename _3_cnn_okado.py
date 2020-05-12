@@ -133,6 +133,7 @@ class CNN(nn.Module):
         x = self.conv1(x)
         x = self.relu(x)
         x1 = x.reshape(-1, 1, 64, 64)
+        x = self. pool(x)
         #x1 = x.reshape(-1, 1, 64, 64)
         x = self.conv2(x)
         x = self.conv3(x)
@@ -140,7 +141,7 @@ class CNN(nn.Module):
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
         #output = self.softmax(x)
-        return output, x    # return x for visualization
+        return output, x1    # return x for visualization
 
 
 cnn = CNN()
@@ -214,21 +215,21 @@ for epoch in range(EPOCH):
         t_y = batch_data['label']
         optimizer.zero_grad()
         output = cnn(t_x)[0]
-        #feature = cnn(t_x)[1]
+        feature = cnn(t_x)[1]
         loss = loss_func(output, t_y)   # cross entropy loss
         sum_loss += loss.item()
         _, predicted = output.max(1)
         sum_total += t_y.size(0)
         sum_correct += (predicted == t_y).sum().item()
-        # if step==1:
-        #     for i in range(4):       
-        #         image = feature[i].cpu().clone().detach().numpy()
-        #         # image = feature[i].cpu().clone()
-        #         # print(image.max())
-        #         # print(image.min())
-        #         image = np.reshape((image * 255), (64, 64, 1))
-        #         image1 = np.concatenate((image, image, image), axis=2)
-        #         cv2.imwrite('feature_'+str(i+1)+'_'+str(epoch)+'.jpg', image1.astype(np.uint8))
+        if step==1:
+            for i in range(4):       
+                image = feature[i].cpu().clone().detach().numpy()
+                # image = feature[i].cpu().clone()
+                # print(image.max())
+                # print(image.min())
+                image = np.reshape((image * 255), (64, 64, 1))
+                image1 = np.concatenate((image, image, image), axis=2)
+                cv2.imwrite('feature_'+str(i+1)+'_'+str(epoch)+'.jpg', image1.astype(np.uint8))
     print("test  mean loss={}, accuracy={}, miss={}"
             .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
