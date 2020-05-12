@@ -15,7 +15,7 @@ from torchvision.utils import make_grid
 # torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 20              # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 5              # train the training data n times, to save time, we just train 1 epoch
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
@@ -56,22 +56,20 @@ class MyDataset(Dataset):
     def __len__(self): #return count of dataset
         return len(self.images)
 
-path = './dataset_6/dataset'
+path = './dataset_6/dataset/'
 full_dataset = os.listdir(path)
 train_size = int(0.8 * len(full_dataset))
 test_size = len(full_dataset) - train_size
 train_dataset, test_dataset = torch.utils.data.random_split(full_dataset, [train_size, test_size])
-
-if __name__=='__main__':
-    train_data = MyDataset(path, train_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
-    train_loader = DataLoader(train_data,batch_size=BATCH_SIZE,shuffle=True)#使用DataLoader加载数据
-    for i_batch,batch_data in enumerate(train_loader):
-        if i_batch == 3:
-            break
-        print(i_batch)#打印batch编号
-        print(batch_data['image'].size())#打印该batch里面图片的大小
-        #print(batch_data['image'])
-        print(batch_data['label'])#打印该batch里面图片的标签
+train_data = MyDataset(path, train_dataset,transform=None)#初始化类，设置数据集所在路径以及变换
+train_loader = DataLoader(train_data,batch_size=BATCH_SIZE,shuffle=True)#使用DataLoader加载数据
+    # for i_batch,batch_data in enumerate(train_loader):
+    #     if i_batch == 3:
+    #         break
+    #     print(i_batch)#打印batch编号
+    #     print(batch_data['image'].size())#打印该batch里面图片的大小
+    #     #print(batch_data['image'])
+    #     print(batch_data['label'])#打印该batch里面图片的标签
 
 # filelist = os.listdir(path)
 # random.shuffle(filelist)
@@ -244,7 +242,7 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-torch.save(cnn.state_dict(),'cnn_e_8_1.pth')
+torch.save(cnn.state_dict(),'cnn_5l_4ch_3cov_20e.pth')
 
 # net2=torch.load('cnn8_3.pkl')
 # print (net2)
