@@ -216,6 +216,7 @@ for epoch in range(EPOCH):
         optimizer.zero_grad()
         output = cnn(t_x)[0]
         feature = cnn(t_x)[1]
+        print('fs: '+feature.size())
         loss = loss_func(output, t_y)   # cross entropy loss
         sum_loss += loss.item()
         _, predicted = output.max(1)
@@ -223,7 +224,7 @@ for epoch in range(EPOCH):
         sum_correct += (predicted == t_y).sum().item()
         if step==1:
             for i in range(4):       
-                image = feature[1][i].cpu().clone().detach().numpy()
+                image = feature[0][i].cpu().clone().detach().numpy()
                 # image = feature[i].cpu().clone()
                 # print(image.max())
                 # print(image.min())
