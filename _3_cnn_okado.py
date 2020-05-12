@@ -216,7 +216,8 @@ for epoch in range(EPOCH):
         optimizer.zero_grad()
         output = cnn(t_x)[0]
         feature = cnn(t_x)[1]
-        print('fs: '+feature.size())
+        print('fs: ')
+        print(feature.size())
         loss = loss_func(output, t_y)   # cross entropy loss
         sum_loss += loss.item()
         _, predicted = output.max(1)
