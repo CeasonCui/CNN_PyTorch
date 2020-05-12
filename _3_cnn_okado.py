@@ -16,7 +16,7 @@ from torchvision.utils import make_grid
 # torch.manual_seed(1)    # reproducible
 
 # Hyper Parameters
-EPOCH = 5              # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 10              # train the training data n times, to save time, we just train 1 epoch
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
@@ -225,7 +225,7 @@ for epoch in range(EPOCH):
         sum_correct += (predicted == t_y).sum().item()
         if step==1:
             for i in range(4):       
-                image = feature[0][i].cpu().clone().detach().numpy()
+                image = feature[i].cpu().clone().detach().numpy()
                 # image = feature[i].cpu().clone()
                 # print(image.max())
                 # print(image.min())
