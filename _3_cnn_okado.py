@@ -223,7 +223,7 @@ for epoch in range(EPOCH):
         sum_correct += (predicted == t_y).sum().item()
         if step==1:
             for i in range(4):       
-                image = feature[i].cpu().clone().detach().numpy()
+                image = feature[1][i].cpu().clone().detach().numpy()
                 # image = feature[i].cpu().clone()
                 # print(image.max())
                 # print(image.min())
