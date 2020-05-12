@@ -96,7 +96,7 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*4 * 8 * 8, 5)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*4 * 8 * 8, 2)   # fully connected layer, output 2 classes
         self.pool = nn.MaxPool2d(2, stride=2)
         self.relu = nn.ReLU()
     def forward(self, x):
