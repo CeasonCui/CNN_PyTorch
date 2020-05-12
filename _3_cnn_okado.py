@@ -140,7 +140,7 @@ class CNN(nn.Module):
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
         #output = self.softmax(x)
-        return output, x1    # return x for visualization
+        return output, x    # return x for visualization
 
 
 cnn = CNN()
