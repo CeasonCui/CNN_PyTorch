@@ -21,7 +21,7 @@ EPOCH = 1               # train the training data n times, to save time, we just
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 8
+channel = 4
 
 class MyDataset(Dataset):
     def __init__(self, root_dir, img, transform=None): #__init__是初始化该类的一些基础参数
