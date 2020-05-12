@@ -216,8 +216,8 @@ for epoch in range(EPOCH):
         optimizer.zero_grad()
         output = cnn(t_x)[0]
         feature = cnn(t_x)[1]
-        print('fs: ')
-        print(feature.size())
+        # print('fs: ')
+        # print(feature.size())
         loss = loss_func(output, t_y)   # cross entropy loss
         sum_loss += loss.item()
         _, predicted = output.max(1)
@@ -231,7 +231,7 @@ for epoch in range(EPOCH):
                 # print(image.min())
                 image = np.reshape((image * 255), (64, 64, 1))
                 image1 = np.concatenate((image, image, image), axis=2)
-                cv2.imwrite('feature_'+str(i+1)+'_'+str(epoch)+'.jpg', image1.astype(np.uint8))
+                cv2.imwrite('feature_'+str(epoch)+'_'+str(i+1)+'.jpg', image1.astype(np.uint8))
     print("test  mean loss={}, accuracy={}, miss={}"
             .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
