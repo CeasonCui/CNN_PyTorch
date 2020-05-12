@@ -116,7 +116,7 @@ class CNN(nn.Module):
         return  output   # return x for visualization
 
 cnn = CNN()
-cnn.load_state_dict(torch.load('cnn_e_5_8_3.pth'))
+cnn.load_state_dict(torch.load('cnn_5l_4ch_3cov_20e.pth'))
 
 loss_func = nn.CrossEntropyLoss()  
 
