@@ -38,14 +38,16 @@ class MyDataset(Dataset):
         l = img_path.split('/')[-1].split('_')[0]
         if l=='ellipse':
             label = 0
-        if l=='square':
-            label = 1
-        if l=='triangle':
-            label = 2
-        if l=='pentagon':
-            label = 3
-        if l=='hexagon':
-            label = 4            
+        # if l=='square':
+        #     label = 1
+        # if l=='triangle':
+        #     label = 2
+        # if l=='pentagon':
+        #     label = 3
+        # if l=='hexagon':
+        #     label = 4  
+        else:
+            label = 1          
         #label =l
         sample = {'image':img,'label':label}#根据图片和标签创建字典
         
