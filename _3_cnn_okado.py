@@ -225,15 +225,15 @@ for epoch in range(EPOCH):
         _, predicted = output.max(1)
         sum_total += t_y.size(0)
         sum_correct += (predicted == t_y).sum().item()
-        if step==1:
-            for i in range(4):       
-                image = feature[i].cpu().clone().detach().numpy()
-                # image = feature[i].cpu().clone()
-                # print(image.max())
-                # print(image.min())
-                image = np.reshape((image * 255), (64, 64, 1))
-                image1 = np.concatenate((image, image, image), axis=2)
-                cv2.imwrite('feature_'+str(epoch)+'_'+str(i+1)+'.jpg', image1.astype(np.uint8))
+        # if step==1:
+        #     for i in range(4):       
+        #         image = feature[i].cpu().clone().detach().numpy()
+        #         # image = feature[i].cpu().clone()
+        #         # print(image.max())
+        #         # print(image.min())
+        #         #image = np.reshape((image * 255), (64, 64, 1))
+        #         image1 = np.concatenate((image, image, image), axis=2)
+        #         cv2.imwrite('feature_'+str(epoch)+'_'+str(i+1)+'.jpg', image1.astype(np.uint8))
     print("test  mean loss={}, accuracy={}, miss={}"
             .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
