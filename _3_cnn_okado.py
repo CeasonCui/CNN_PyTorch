@@ -1,6 +1,7 @@
 import os
 
 # third-party library
+import cv2
 import torch
 import torch.nn as nn
 import torchvision
@@ -104,8 +105,8 @@ class CNN(nn.Module):
                 stride=1,                   # filter movement/step
                 padding=1,                  # if want same width and length of this image after Conv2d, padding=(kernel_size-1)/2 if stride=1
             ),                              # output shape (32, 64, 64)
-            nn.ReLU(),                      # activation
-            nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
+            #nn.ReLU(),                      # activation
+            #nn.MaxPool2d(kernel_size=2),    # choose max value in 2x2 area, output shape (32, 32, 32)
         )
         self.conv2 = nn.Sequential(         # input shape (32, 32, 32)
             nn.Conv2d(channel, channel*2, 3, 1, 1),     # output shape (64, 32, 32)
@@ -123,12 +124,15 @@ class CNN(nn.Module):
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
         self.fc1 = nn.Linear(channel*4 * 8 * 8, 5)   # fully connected layer, output 2 classes
-    
+        self.pool = nn.MaxPool2d(2, stride=2)
+        self.relu = nn.ReLU()
     def forward(self, x):
         x = x.float()
         x = x.view(-1, 1, 64, 64)
         #x = x.reshape(-1, 1, 64, 64)
         x = self.conv1(x)
+        x2 = self.relu(x)
+        x1 = x2.reshape(-1, 1, 64, 64)
         #x1 = x.reshape(-1, 1, 64, 64)
         x = self.conv2(x)
         x = self.conv3(x)
@@ -136,7 +140,7 @@ class CNN(nn.Module):
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
         #output = self.softmax(x)
-        return output, x    # return x for visualization
+        return output, x1    # return x for visualization
 
 
 cnn = CNN()
@@ -210,15 +214,26 @@ for epoch in range(EPOCH):
         t_y = batch_data['label']
         optimizer.zero_grad()
         output = cnn(t_x)[0]
+        feature = cnn(t_x)[1]
         loss = loss_func(output, t_y)   # cross entropy loss
         sum_loss += loss.item()
         _, predicted = output.max(1)
         sum_total += t_y.size(0)
         sum_correct += (predicted == t_y).sum().item()
+        if step==1:
+            for i in range(4):       
+                image = feature[i].cpu().clone().detach().numpy()
+                # image = feature[i].cpu().clone()
+                # print(image.max())
+                # print(image.min())
+                image = np.reshape((image * 255), (64, 64, 1))
+                image1 = np.concatenate((image, image, image), axis=2)
+                cv2.imwrite('feature_'+str(i+1)+'_'+str(epoch)+'.jpg', image1.astype(np.uint8))
     print("test  mean loss={}, accuracy={}, miss={}"
             .format(sum_loss*BATCH_SIZE/len(test_loader.dataset), float(sum_correct/sum_total),(sum_total-sum_correct)))
     test_loss_value.append(sum_loss*BATCH_SIZE/len(test_loader.dataset))
     test_acc_value.append(float(sum_correct/sum_total))
+        
         # if step % 50 == 0:
         #     for step, batch_tdata in enumerate(test_loader):
         #         t_x = batch_tdata['image']
