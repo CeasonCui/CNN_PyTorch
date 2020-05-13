@@ -39,16 +39,16 @@ class MyDataset(Dataset):
         l = img_path.split('/')[-1].split('_')[0]
         if l=='ellipse':
             label = 0
-        if l=='square':
-            label = 1
-        if l=='triangle':
-            label = 2
-        if l=='pentagon':
-            label = 3
-        if l=='hexagon':
-            label = 4   
-        # else:
-        #     label = 1         
+        # if l=='square':
+        #     label = 1
+        # if l=='triangle':
+        #     label = 2
+        # if l=='pentagon':
+        #     label = 3
+        # if l=='hexagon':
+        #     label = 4   
+        else:
+            label = 1         
         #label =l
         sample = {'image':img,'label':label}#根据图片和标签创建字典
         
@@ -125,7 +125,7 @@ class CNN(nn.Module):
             nn.ReLU(),                      # activation
             nn.MaxPool2d(2),                # output shape (256, 4, 4)
         )
-        self.fc1 = nn.Linear(channel*4 * 8 * 8, 5)   # fully connected layer, output 2 classes
+        self.fc1 = nn.Linear(channel*1 * 32 * 32, 2)   # fully connected layer, output 2 classes
         self.pool = nn.MaxPool2d(2, stride=2)
         self.relu = nn.ReLU()
     def forward(self, x):
@@ -137,8 +137,8 @@ class CNN(nn.Module):
         x1 = x.reshape(-1, 1, 64, 64)
         x = self. pool(x)
         #x1 = x.reshape(-1, 1, 64, 64)
-        x = self.conv2(x)
-        x = self.conv3(x)
+        #x = self.conv2(x)
+        #x = self.conv3(x)
         #x = self.conv4(x)
         x = x.view(x.size(0), -1)           # flatten the output of conv2 to (batch_size, 32 * 7 * 7)
         output = self.fc1(x)
@@ -262,7 +262,7 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-torch.save(cnn.state_dict(),'cnn_5l_4ch_3cov_100e.pth')
+torch.save(cnn.state_dict(),'cnn_52l_4ch_1cov_100e.pth')
 
 # net2=torch.load('cnn8_3.pkl')
 # print (net2)
