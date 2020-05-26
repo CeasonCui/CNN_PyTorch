@@ -20,7 +20,7 @@ EPOCH = 100              # train the training data n times, to save time, we jus
 BATCH_SIZE = 32
 LR = 0.001              # learning rate
 DOWNLOAD_MNIST = False
-channel = 4
+channel = 2
 
 
 
@@ -262,7 +262,7 @@ plt.ioff()
 # print(pred_y, 'prediction number')
 # print(test_data['label'][:10].numpy(), 'real number')
 
-torch.save(cnn.state_dict(),'cnn_5l_4ch_3cov_100e.pth')
+torch.save(cnn.state_dict(),'cnn_5l_2ch_3cov_100e.pth')
 
 # net2=torch.load('cnn8_3.pkl')
 # print (net2)
